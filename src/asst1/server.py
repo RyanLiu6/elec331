@@ -45,11 +45,10 @@ def randomIgnore():
     # Ignores a message with a 10% chance
     chance = random.randint(1, 10)
 
-    return False
-    # if chance == 1:
-    #     return True
-    # else:
-    #     return False
+    if chance == 1:
+        return True
+    else:
+        return False
 
 if __name__ == "__main__":
     server()
