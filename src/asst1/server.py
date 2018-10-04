@@ -2,6 +2,7 @@ import socket
 
 # Defining UDP server variables
 UDP_PORT = 12000
+UDP_PACKET_SIZE = 2048
 UDP_SERVER = "localhost"
 UDP_ADDRESS = (UDP_SERVER, UDP_PORT)
 
@@ -16,12 +17,15 @@ def server():
     print("Starting up on {} port {}".format(*serverAddress))
 
     while True:
-        print("Waiting to receive message")
+        data, address = serverSocket.recvfrom(UDP_PACKET_SIZE)
 
-        data, address = serverSocket.recvfrom(4096)
+        print(data)
+        retData = data[::-1]
 
         if data:
-            serverSocket.sendto(data[::-1], address)
+            serverSocket.sendto(retData, address)
+        else:
+            print("Waiting for message")
 
 if __name__ == "__main__":
     server()
