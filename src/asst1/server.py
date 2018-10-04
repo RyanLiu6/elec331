@@ -28,6 +28,7 @@ def server():
         except KeyboardInterrupt:
             serverSocket.close()
             print("Server Terminated")
+            break
 
         print('received {} bytes from {}'.format(
             len(data), address))
