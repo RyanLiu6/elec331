@@ -4,7 +4,7 @@ import socket
 # Defining UDP server variables
 UDP_PORT = 12000
 UDP_PACKET_SIZE = 4096
-UDP_SERVER = "127.0.0.1"
+UDP_SERVER = "localhost"
 UDP_ADDRESS = (UDP_SERVER, UDP_PORT)
 
 # Message information
