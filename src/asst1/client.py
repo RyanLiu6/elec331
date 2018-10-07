@@ -26,15 +26,19 @@ def client():
         # Generate the message
         currMsg = str.encode(BASE_MESSAGE + " " + str(i))
 
+        # Send message to server and set the SENT_TIME for RTT timing
         clientSocket.sendto(currMsg, UDP_ADDRESS)
         SENT_TIME = time.time()
 
+        # Attempt to receive from the socket
+        # If more than one second has passed, we print an exception
         try:
             RET_MESSAGE, serverAddress = clientSocket.recvfrom(UDP_PACKET_SIZE)
         except socket.timeout:
             print("Request " + str(i) + " Timed Out")
             continue
 
+        # Printing received message and calculating RTT
         timeDiff = time.time() - SENT_TIME
         print("Return Message: " + RET_MESSAGE.decode())
 
