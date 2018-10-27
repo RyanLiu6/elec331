@@ -1,7 +1,6 @@
 import sys
 import time
 import socket
-import struct
 
 # Defining some traceroute base variables
 STAR = "*"
@@ -107,6 +106,7 @@ class myTraceRoute:
 
 if __name__ == "__main__":
     # Assuming only one destination
+    # Must run using sudo because of socket.SOCK_RAW
     des_hostname = sys.argv[1]
 
     tracer = myTraceRoute(des_hostname)
