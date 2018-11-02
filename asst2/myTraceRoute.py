@@ -19,12 +19,13 @@ class myTraceRoute:
         self.hop = 1
         self.tries = NUM_TRIES
         self.port = SOCKET_PORT
-        self.desn = (des_hostname, socket.gethostbyname(des_hostname))
-        self.sendAddr = (self.desn[1], self.port)
+        self.des_hostname = des_hostname
+        self.des_address = socket.gethostbyname(des_hostname)
+        self.sendAddr = (self.des_address, self.port)
         self.rttArr = []
 
     def trace(self):
-        info = "traceroute to {} ({}), {} hops max".format(*self.desn, MAX_HOPS)
+        info = "traceroute to {} ({}), {} hops max".format(self.des_hostname, self.des_address, MAX_HOPS)
 
         print(info)
 
@@ -66,7 +67,12 @@ class myTraceRoute:
             # Printing for each hop
             # If address is not None, we print the address
             if address:
-                print(address[0], end=SPACE)
+                currAddr = str(address[0])
+                currName = self.lookup(currAddr)
+
+                replyAddress = "{} ({})".format(currName, currAddr)
+
+                print(replyAddress, end=SPACE)
 
             for rtt in self.rttArr:
                 currMsg = str(rtt)
@@ -81,7 +87,7 @@ class myTraceRoute:
             self.hop += 1
 
             # Check if we have arrived at our destination
-            if address and address[0] == self.desn[1]:
+            if address and address[0] == self.des_address:
                 break
 
             # Check if we have not reached our destination after MAX_HOPS hops
@@ -103,6 +109,13 @@ class myTraceRoute:
         receiver.bind(("", self.port))
 
         return receiver
+
+    def lookup(self, addr):
+        try:
+            name, alias, addresslist = socket.gethostbyaddr(addr)
+            return name
+        except socket.herror:
+            return addr
 
 if __name__ == "__main__":
     # Assuming only one destination
